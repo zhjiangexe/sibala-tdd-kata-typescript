@@ -2,11 +2,23 @@ import {Parser} from "./Parser"
 import {Dice} from "./Dice"
 
 export class Game {
+  numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
+
   showResult(input: string): string {
     const parser = new Parser()
     const players = parser.parse(input)
-    const winnerPlayer = players[0].name
-    const winnerOutput = this.countMapNum(players[0].dices)[4]
+    const winner1Output = this.countMapNum(players[0].dices)[4]
+    const winner2Output = this.countMapNum(players[1].dices)[4]
+    let winnerPlayer: string
+    let winnerOutput: string
+
+    if (this.numOrder.indexOf(winner1Output) > this.numOrder.indexOf(winner2Output)) {
+      winnerPlayer = players[0].name
+      winnerOutput = winner1Output
+    } else {
+      winnerPlayer = players[1].name
+      winnerOutput = winner2Output
+    }
     return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
   }
 
