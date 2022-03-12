@@ -4,9 +4,10 @@ export class Parser {
   parse(input: string): Player[] {
     const playerSections = input.split("  ")
     const player1Name = playerSections[0].split(":")[0]
+    const player2Name = playerSections[1].split(":")[0]
     return [
       new Player(player1Name),
-      new Player("White")
+      new Player(player2Name)
     ]
   }
 }
