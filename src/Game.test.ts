@@ -1,7 +1,10 @@
 class Game {
   showResult(input: string): string {
     // todo: hard code
-    return "Black win. - with all of a kind: 5"
+    // "Black: 5 5 5 5 White: 3 3 3 3"
+    const winnerPlayer = "Black"
+    const winnerOutput = "5"
+    return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
   }
 }
 
