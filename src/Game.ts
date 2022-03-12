@@ -12,6 +12,9 @@ export class Game {
     let winnerPlayer: string
     let winnerOutput: string
 
+    if (this.numOrder.indexOf(winner1Output) === this.numOrder.indexOf(winner2Output)) {
+      return "Tie."
+    }
     if (this.numOrder.indexOf(winner1Output) > this.numOrder.indexOf(winner2Output)) {
       winnerPlayer = players[0].name
       winnerOutput = winner1Output
