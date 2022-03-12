@@ -11,5 +11,7 @@ describe("game", () => {
   test("both all of a kind", () => {
     resultShouldBe("Black: 5 5 5 5  White: 3 3 3 3",
       "Black win. - with all of a kind: 5")
+    resultShouldBe("Black: 5 5 5 5  White: 1 1 1 1",
+      "White win. - with all of a kind: 1")
   })
 })
