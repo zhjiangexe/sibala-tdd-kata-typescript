@@ -22,4 +22,9 @@ describe("game", () => {
     resultShouldBe("Black: 4 4 4 4  White: 4 4 4 4",
       "Tie.")
   })
+
+  test("both normal point", () => {
+    resultShouldBe("Black: 5 3 5 4  White: 2 6 2 3",
+      "White win. - with normal point: 6 over 3")
+  })
 })
