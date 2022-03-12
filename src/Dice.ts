@@ -1,8 +1,8 @@
 export class Dice {
-  private number: string
+  readonly num: string
 
-  constructor(number: string) {
-    this.number = number
+  constructor(num: string) {
+    this.num = num
   }
 
 }
