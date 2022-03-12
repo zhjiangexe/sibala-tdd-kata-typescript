@@ -5,12 +5,15 @@ export class Parser {
   parse(input: string): Player[] {
     // Black: 5 5 5 5  White: 3 3 3 3
     const playerSections = input.split("  ")
-    const player1Name = playerSections[0].split(":")[0]
+    const player1 = this.getPlayer(playerSections, 0)
     const player2Name = playerSections[1].split(":")[0]
-    const player1Dices = playerSections[0].split(":")[1].trim().split(" ").map(dice => new Dice(dice))
-    return [
-      new Player(player1Name, player1Dices),
-      new Player(player2Name, [])
+    return [player1, new Player(player2Name, [])
     ]
+  }
+
+  private getPlayer(playerSections: string[], playerIndex: number) {
+    const name = playerSections[playerIndex].split(":")[0]
+    const dices = playerSections[playerIndex].split(":")[1].trim().split(" ").map(dice => new Dice(dice))
+    return new Player(name, dices)
   }
 }
