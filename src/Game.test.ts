@@ -19,5 +19,7 @@ describe("game", () => {
       "Black win. - with all of a kind: 4")
     resultShouldBe("Black: 4 4 4 4  White: 6 6 6 6",
       "Black win. - with all of a kind: 4")
+    resultShouldBe("Black: 4 4 4 4  White: 4 4 4 4",
+      "Tie.")
   })
 })
