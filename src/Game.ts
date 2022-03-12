@@ -10,7 +10,7 @@ export class Game {
     return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
   }
 
-  private countMapNum(dices: Dice[]) {
+  private countMapNum = (dices: Dice[]) => {
     const numMapCount: Record<string, number> = {}
     for (const item of dices) {
       numMapCount[item.num] = numMapCount[item.num] ? numMapCount[item.num] + 1 : 1
