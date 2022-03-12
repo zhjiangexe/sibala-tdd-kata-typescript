@@ -9,20 +9,20 @@ export class Game {
     const players = parser.parse(input)
     const winner1Output = this.countMapNum(players[0].dices)[4]
     const winner2Output = this.countMapNum(players[1].dices)[4]
-    let winnerPlayer: string
-    let winnerOutput: string
-
-    if (this.numOrder.indexOf(winner1Output) === this.numOrder.indexOf(winner2Output)) {
-      return "Tie."
+    let compareResult = this.numOrder.indexOf(winner1Output) - this.numOrder.indexOf(winner2Output)
+    if (compareResult !== 0) {
+      let winnerPlayer
+      let winnerOutput
+      if (compareResult > 0) {
+        winnerPlayer = players[0].name
+        winnerOutput = winner1Output
+      } else {
+        winnerPlayer = players[1].name
+        winnerOutput = winner2Output
+      }
+      return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
     }
-    if (this.numOrder.indexOf(winner1Output) > this.numOrder.indexOf(winner2Output)) {
-      winnerPlayer = players[0].name
-      winnerOutput = winner1Output
-    } else {
-      winnerPlayer = players[1].name
-      winnerOutput = winner2Output
-    }
-    return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
+    return "Tie."
   }
 
   private countMapNum = (dices: Dice[]) => {
