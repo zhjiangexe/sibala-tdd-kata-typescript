@@ -29,6 +29,21 @@ export class Game {
     const dices2 = players[1].dices
     const category1 = this.getCategoryType(dices1)
     const category2 = this.getCategoryType(dices2)
+    if (category1.type != category2.type) {
+      let winnerPlayer
+      let winnerCategory
+      let winnerOutput
+      if (category1.type > category2.type) {
+        winnerPlayer = players[0].name
+        winnerCategory = category1.name
+        winnerOutput = category1.output
+      } else {
+        winnerPlayer = players[1].name
+        winnerCategory = category2.name
+        winnerOutput = category2.output
+      }
+      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
+    }
     if (category2.type === CategoryType.NormalPoint) {
       let winnerPlayer = players[1].name
       let winnerCategory = category2.name
