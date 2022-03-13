@@ -19,6 +19,28 @@ class Category {
 
 }
 
+interface DifferentCategoryResult {
+  compareResult: number
+  winnerCategory: string
+  winnerOutput: string
+}
+
+class DifferentCategoryComparer {
+  public compare(category1: Category, category2: Category): DifferentCategoryResult {
+    const compareResult = category1.type - category2.type
+    let winnerCategory
+    let winnerOutput
+    if (compareResult > 0) {
+      winnerCategory = category1.name
+      winnerOutput = category1.output
+    } else {
+      winnerCategory = category2.name
+      winnerOutput = category2.output
+    }
+    return {compareResult, winnerCategory, winnerOutput}
+  }
+}
+
 export class Game {
   numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
 
@@ -33,14 +55,11 @@ export class Game {
     let winnerCategory
     let winnerOutput
     if (category1.type != category2.type) {
-      compareResult = category1.type - category2.type
-      if (compareResult > 0) {
-        winnerCategory = category1.name
-        winnerOutput = category1.output
-      } else {
-        winnerCategory = category2.name
-        winnerOutput = category2.output
-      }
+      const differentCategoryComparer = new DifferentCategoryComparer()
+      const result = differentCategoryComparer.compare(category1, category2)
+      compareResult = result.compareResult
+      winnerCategory = result.winnerCategory
+      winnerOutput = result.winnerOutput
     } else {
       if (category2.type === CategoryType.NormalPoint) {
         compareResult = -1
