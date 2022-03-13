@@ -81,7 +81,9 @@ export class Game {
       winnerOutput = result.winnerOutput
     } else {
       if (category2.type === CategoryType.NormalPoint) {
-        compareResult = -1
+        const sum1 = countMapNum1[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
+        const sum2 = countMapNum2[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
+        compareResult = sum1 - sum2
         winnerCategory = category2.name
         winnerOutput = category2.output
       } else {
