@@ -34,7 +34,7 @@ export class Game {
     }
     const winner1Output = this.countMapNum(dices1)[4]
     const winner2Output = this.countMapNum(dices2)[4]
-    let compareResult = this.numOrder.indexOf(winner1Output) - this.numOrder.indexOf(winner2Output)
+    let compareResult = this.numOrder.indexOf(winner1Output[0]) - this.numOrder.indexOf(winner2Output[0])
     if (compareResult !== 0) {
       let winnerPlayer
       let winnerOutput
@@ -64,9 +64,13 @@ export class Game {
     for (const item of dices) {
       numMapCount[item.num] = numMapCount[item.num] ? numMapCount[item.num] + 1 : 1
     }
-    const countMapNum: Record<number, string> = {}
+    const countMapNum: Record<number, string[]> = {}
     for (let num in numMapCount) {
-      countMapNum[numMapCount[num]] = num
+      if (countMapNum[numMapCount[num]]) {
+        countMapNum[numMapCount[num]].push(num)
+      } else {
+        countMapNum[numMapCount[num]] = [num]
+      }
     }
     return countMapNum
   }
