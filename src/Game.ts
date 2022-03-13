@@ -19,14 +19,14 @@ class Category {
 
 }
 
-interface DifferentCategoryResult {
+interface CompareResult {
   compareResult: number
-  winnerCategory: string
-  winnerOutput: string
+  winnerCategory: string | undefined
+  winnerOutput: string | undefined
 }
 
 class DifferentCategoryComparer {
-  public compare(category1: Category, category2: Category): DifferentCategoryResult {
+  public compare(category1: Category, category2: Category): CompareResult {
     const compareResult = category1.type - category2.type
     let winnerCategory
     let winnerOutput
@@ -66,16 +66,10 @@ export class Game {
         winnerCategory = category2.name
         winnerOutput = category2.output
       } else {
-        compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
-        if (compareResult !== 0) {
-          if (compareResult > 0) {
-            winnerCategory = category1.name
-            winnerOutput = category1.output
-          } else {
-            winnerCategory = category2.name
-            winnerOutput = category2.output
-          }
-        }
+        const result = this.AllOfAKindCompare(category1, category2)
+        compareResult = result.compareResult
+        winnerCategory = result.winnerCategory
+        winnerOutput = result.winnerOutput
       }
     }
     if (compareResult != 0) {
@@ -83,6 +77,20 @@ export class Game {
       return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
     }
     return "Tie."
+  }
+
+  private AllOfAKindCompare(category1: Category, category2: Category): CompareResult {
+    const compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
+    let winnerCategory
+    let winnerOutput
+    if (compareResult > 0) {
+      winnerCategory = category1.name
+      winnerOutput = category1.output
+    } else if (compareResult < 0) {
+      winnerCategory = category2.name
+      winnerOutput = category2.output
+    }
+    return {compareResult, winnerCategory, winnerOutput}
   }
 
   private getCategoryType(dices: Dice[]): Category {
