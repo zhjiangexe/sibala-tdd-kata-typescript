@@ -29,40 +29,39 @@ export class Game {
     const dices2 = players[1].dices
     const category1 = this.getCategoryType(dices1)
     const category2 = this.getCategoryType(dices2)
+    let compareResult
+    let winnerCategory
+    let winnerOutput
     if (category1.type != category2.type) {
-      let winnerPlayer
-      let winnerCategory
-      let winnerOutput
-      if (category1.type > category2.type) {
-        winnerPlayer = players[0].name
+      compareResult = category1.type - category2.type
+      if (compareResult > 0) {
         winnerCategory = category1.name
         winnerOutput = category1.output
       } else {
-        winnerPlayer = players[1].name
         winnerCategory = category2.name
         winnerOutput = category2.output
       }
-      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
-    }
-    if (category2.type === CategoryType.NormalPoint) {
-      let winnerPlayer = players[1].name
-      let winnerCategory = category2.name
-      let winnerOutput = category2.output
-      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
-    }
-    const compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
-    if (compareResult !== 0) {
-      const category = category1.name
-      let winnerPlayer
-      let winnerOutput
-      if (compareResult > 0) {
-        winnerPlayer = players[0].name
-        winnerOutput = category1.output
-      } else {
-        winnerPlayer = players[1].name
+    } else {
+      if (category2.type === CategoryType.NormalPoint) {
+        compareResult = -1
+        winnerCategory = category2.name
         winnerOutput = category2.output
+      } else {
+        compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
+        if (compareResult !== 0) {
+          if (compareResult > 0) {
+            winnerCategory = category1.name
+            winnerOutput = category1.output
+          } else {
+            winnerCategory = category2.name
+            winnerOutput = category2.output
+          }
+        }
       }
-      return `${winnerPlayer} win. - with ${category}: ${winnerOutput}`
+    }
+    if (compareResult != 0) {
+      const winnerPlayer = compareResult > 0 ? players[0].name : players[1].name
+      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
     }
     return "Tie."
   }
