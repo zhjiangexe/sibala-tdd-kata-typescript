@@ -73,7 +73,7 @@ export class Category {
 }
 
 export enum CategoryType {
+  NoPoint,
   NormalPoint,
   AllOfAKind,
-  NoPoint,
 }
