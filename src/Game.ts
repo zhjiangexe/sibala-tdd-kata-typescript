@@ -9,10 +9,12 @@ enum CategoryType {
 class Category {
   readonly type: CategoryType
   readonly name: string
+  readonly output: string
 
-  constructor(type: CategoryType, name: string) {
+  constructor(type: CategoryType, name: string, output: string) {
     this.type = type
     this.name = name
+    this.output = output
   }
 
 }
@@ -29,7 +31,7 @@ export class Game {
     if (category2.type === CategoryType.NormalPoint) {
       let winnerPlayer = players[1].name
       let winnerCategory = category2.name
-      let winnerOutput = "6 over 3"
+      let winnerOutput = category2.output
       return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
     }
     const winner1Output = this.countMapNum(dices1)[4]
@@ -53,9 +55,12 @@ export class Game {
   private getCategoryType(dices: Dice[]): Category {
     const isNormalPoint = this.countMapNum(dices)[2]
     if (isNormalPoint) {
-      return new Category(CategoryType.NormalPoint, "normal point")
+      const count1Num: string[] = this.countMapNum(dices)[1]
+      const output = this.numOrder.indexOf(count1Num[0]) > this.numOrder.indexOf(count1Num[1]) ? `${count1Num[0]} over ${count1Num[1]}` : `${count1Num[1]} over ${count1Num[0]}`
+      return new Category(CategoryType.NormalPoint, "normal point", output)
     } else {
-      return new Category(CategoryType.AllOfAKind, "all of a kind")
+      const count4Num = this.countMapNum(dices)[4][0]
+      return new Category(CategoryType.AllOfAKind, "all of a kind", count4Num)
     }
   }
 
