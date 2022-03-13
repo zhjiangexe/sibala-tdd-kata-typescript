@@ -1,9 +1,10 @@
 import {Parser} from "./Parser"
-import {CategoryType, DiceHands} from "./Player"
-import {DifferentCategoryComparer} from "./DifferentCategoryComparer"
-import {AllOfAKindComparer} from "./AllOfAKindComparer"
-import {NormalPointComparer} from "./NormalPointComparer"
-import {NoPointComparer} from "./NoPointComparer"
+import {DifferentCategoryComparer} from "./comparer/DifferentCategoryComparer"
+import {AllOfAKindComparer} from "./comparer/AllOfAKindComparer"
+import {NormalPointComparer} from "./comparer/NormalPointComparer"
+import {NoPointComparer} from "./comparer/NoPointComparer"
+import {DiceHands} from "./DiceHands"
+import {CategoryType} from "./Category"
 
 
 export class Game {
@@ -13,7 +14,7 @@ export class Game {
     const players = parser.parse(input)
     const diceHands1 = players[0].diceHands
     const diceHands2 = players[1].diceHands
-    let comparer = this.getComparer(diceHands1, diceHands2)
+    const comparer = this.getComparer(diceHands1, diceHands2)
     const result = comparer.compare(diceHands1, diceHands2)
     if (result.compareResult != 0) {
       const winnerPlayer = result.compareResult > 0 ? players[0].name : players[1].name
@@ -26,12 +27,13 @@ export class Game {
     if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
       return new DifferentCategoryComparer()
     }
-    if (diceHands1.getCategoryType().type === CategoryType.NoPoint) {
-      return new NoPointComparer()
+    switch (diceHands1.getCategoryType().type) {
+      case CategoryType.NoPoint:
+        return new NoPointComparer()
+      case CategoryType.NormalPoint:
+        return new NormalPointComparer()
+      default:
+        return new AllOfAKindComparer()
     }
-    if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
-      return new NormalPointComparer()
-    }
-    return new AllOfAKindComparer()
   }
 }

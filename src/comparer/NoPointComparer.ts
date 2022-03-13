@@ -1,5 +1,5 @@
 import {CompareResult, IComparer} from "./IComparer"
-import {DiceHands} from "./Player"
+import {DiceHands} from "../DiceHands"
 
 export class NoPointComparer implements IComparer {
   compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult {

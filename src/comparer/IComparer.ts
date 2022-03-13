@@ -1,4 +1,4 @@
-import {DiceHands} from "./Player"
+import {DiceHands} from "../DiceHands"
 
 export interface CompareResult {
   compareResult: number
