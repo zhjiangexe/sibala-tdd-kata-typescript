@@ -67,19 +67,17 @@ export class Game {
     const players = parser.parse(input)
     const diceHands1 = players[0].diceHands
     const diceHands2 = players[1].diceHands
-    let result
+    let comparer: IComparer
     if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
-      const differentCategoryComparer = new DifferentCategoryComparer()
-      result = differentCategoryComparer.compare(diceHands1, diceHands2)
+      comparer = new DifferentCategoryComparer()
     } else {
       if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
-        const normalPointComparer = new NormalPointComparer()
-        result = normalPointComparer.compare(diceHands1, diceHands2)
+        comparer = new NormalPointComparer()
       } else {
-        const allOfAKindComparer = new AllOfAKindComparer()
-        result = allOfAKindComparer.compare(diceHands1, diceHands2)
+        comparer = new AllOfAKindComparer()
       }
     }
+    const result = comparer.compare(diceHands1, diceHands2)
     if (result.compareResult != 0) {
       const winnerPlayer = result.compareResult > 0 ? players[0].name : players[1].name
       return `${winnerPlayer} win. - with ${result.winnerCategory}: ${result.winnerOutput}`
