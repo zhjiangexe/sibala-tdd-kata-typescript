@@ -67,33 +67,22 @@ export class Game {
     const players = parser.parse(input)
     const diceHands1 = players[0].diceHands
     const diceHands2 = players[1].diceHands
-    let compareResult
-    let winnerCategory
-    let winnerOutput
+    let result
     if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
       const differentCategoryComparer = new DifferentCategoryComparer()
-      const result = differentCategoryComparer.compare(diceHands1, diceHands2)
-      compareResult = result.compareResult
-      winnerCategory = result.winnerCategory
-      winnerOutput = result.winnerOutput
+      result = differentCategoryComparer.compare(diceHands1, diceHands2)
     } else {
       if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
         const normalPointComparer = new NormalPointComparer()
-        const result = normalPointComparer.compare(diceHands1, diceHands2)
-        compareResult = result.compareResult
-        winnerCategory = result.winnerCategory
-        winnerOutput = result.winnerOutput
+        result = normalPointComparer.compare(diceHands1, diceHands2)
       } else {
         const allOfAKindComparer = new AllOfAKindComparer()
-        const result = allOfAKindComparer.compare(diceHands1, diceHands2)
-        compareResult = result.compareResult
-        winnerCategory = result.winnerCategory
-        winnerOutput = result.winnerOutput
+        result = allOfAKindComparer.compare(diceHands1, diceHands2)
       }
     }
-    if (compareResult != 0) {
-      const winnerPlayer = compareResult > 0 ? players[0].name : players[1].name
-      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
+    if (result.compareResult != 0) {
+      const winnerPlayer = result.compareResult > 0 ? players[0].name : players[1].name
+      return `${winnerPlayer} win. - with ${result.winnerCategory}: ${result.winnerOutput}`
     }
     return "Tie."
   }
