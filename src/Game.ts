@@ -41,8 +41,27 @@ class DifferentCategoryComparer {
   }
 }
 
+class Data {
+  static numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
+}
+
+class AllOfAKindComparer {
+  public compare(category1: Category, category2: Category): CompareResult {
+    const compareResult = Data.numOrder.indexOf(category1.output) - Data.numOrder.indexOf(category2.output)
+    let winnerCategory
+    let winnerOutput
+    if (compareResult > 0) {
+      winnerCategory = category1.name
+      winnerOutput = category1.output
+    } else if (compareResult < 0) {
+      winnerCategory = category2.name
+      winnerOutput = category2.output
+    }
+    return {compareResult, winnerCategory, winnerOutput}
+  }
+}
+
 export class Game {
-  numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
 
   showResult(input: string): string {
     const parser = new Parser()
@@ -66,7 +85,8 @@ export class Game {
         winnerCategory = category2.name
         winnerOutput = category2.output
       } else {
-        const result = this.AllOfAKindCompare(category1, category2)
+        const allOfAKindComparer = new AllOfAKindComparer()
+        const result = allOfAKindComparer.compare(category1, category2)
         compareResult = result.compareResult
         winnerCategory = result.winnerCategory
         winnerOutput = result.winnerOutput
@@ -79,25 +99,11 @@ export class Game {
     return "Tie."
   }
 
-  private AllOfAKindCompare(category1: Category, category2: Category): CompareResult {
-    const compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
-    let winnerCategory
-    let winnerOutput
-    if (compareResult > 0) {
-      winnerCategory = category1.name
-      winnerOutput = category1.output
-    } else if (compareResult < 0) {
-      winnerCategory = category2.name
-      winnerOutput = category2.output
-    }
-    return {compareResult, winnerCategory, winnerOutput}
-  }
-
   private getCategoryType(dices: Dice[]): Category {
     const isNormalPoint = this.countMapNum(dices)[2]
     if (isNormalPoint) {
       const count1Num: string[] = this.countMapNum(dices)[1]
-      const output = this.numOrder.indexOf(count1Num[0]) > this.numOrder.indexOf(count1Num[1]) ? `${count1Num[0]} over ${count1Num[1]}` : `${count1Num[1]} over ${count1Num[0]}`
+      const output = Data.numOrder.indexOf(count1Num[0]) > Data.numOrder.indexOf(count1Num[1]) ? `${count1Num[0]} over ${count1Num[1]}` : `${count1Num[1]} over ${count1Num[0]}`
       return new Category(CategoryType.NormalPoint, "normal point", output)
     } else {
       const count4Num = this.countMapNum(dices)[4][0]
