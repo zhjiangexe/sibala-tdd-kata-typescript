@@ -12,7 +12,7 @@ export class Player {
 
 }
 
-class DiceHands {
+export class DiceHands {
   private readonly dices: Dice[]
 
   constructor(dices: Dice[]) {
