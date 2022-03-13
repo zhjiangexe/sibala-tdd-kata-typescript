@@ -53,8 +53,9 @@ export class DiceHands {
   }
 
   private isNoPoint(): boolean {
-    const countMapNumElement = this.getCountMapNum()[1]
-    return countMapNumElement !== undefined && countMapNumElement.length === 4
+    const countMapNum = this.getCountMapNum()
+    return countMapNum[3] !== undefined
+      || (countMapNum[1] !== undefined && countMapNum[1].length === 4)
   }
 }
 
