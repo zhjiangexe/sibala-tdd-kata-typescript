@@ -9,7 +9,11 @@ interface CompareResult {
   winnerOutput: string | undefined
 }
 
-class DifferentCategoryComparer {
+interface IComparer {
+  compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult
+}
+
+class DifferentCategoryComparer implements IComparer {
   public compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult {
     const category1 = diceHands1.getCategoryType()
     const category2 = diceHands2.getCategoryType()
@@ -27,7 +31,7 @@ class DifferentCategoryComparer {
   }
 }
 
-class AllOfAKindComparer {
+class AllOfAKindComparer implements IComparer {
   public compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult {
     const category = diceHands1.getCategoryType()
     const category3 = diceHands2.getCategoryType()
@@ -45,7 +49,7 @@ class AllOfAKindComparer {
   }
 }
 
-class NormalPointComparer {
+class NormalPointComparer implements IComparer {
   public compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult {
     const sum1 = (diceHands1.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
     const sum2 = (diceHands2.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
