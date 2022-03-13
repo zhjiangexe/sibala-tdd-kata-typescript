@@ -6,6 +6,15 @@ enum CategoryType {
   AllOfAKind,
 }
 
+class Category {
+  readonly categoryType: CategoryType
+
+  constructor(categoryType: CategoryType) {
+    this.categoryType = categoryType
+  }
+
+}
+
 export class Game {
   numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
 
@@ -14,9 +23,9 @@ export class Game {
     const players = parser.parse(input)
     const dices1 = players[0].dices
     const dices2 = players[1].dices
-    const category1 = this.getCategoryType(dices1)
-    if (category1 === CategoryType.NormalPoint) {
-      let winnerPlayer = "White"
+    const category2 = this.getCategoryType(dices2)
+    if (category2.categoryType === CategoryType.NormalPoint) {
+      let winnerPlayer = players[1].name
       let winnerCategory = "normal point"
       let winnerOutput = "6 over 3"
       return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
@@ -39,12 +48,12 @@ export class Game {
     return "Tie."
   }
 
-  private getCategoryType(dices: Dice[]): CategoryType {
+  private getCategoryType(dices: Dice[]): Category {
     const isNormalPoint = this.countMapNum(dices)[2]
     if (isNormalPoint) {
-      return CategoryType.NormalPoint
+      return new Category(CategoryType.NormalPoint)
     } else {
-      return CategoryType.AllOfAKind
+      return new Category(CategoryType.AllOfAKind)
     }
   }
 
