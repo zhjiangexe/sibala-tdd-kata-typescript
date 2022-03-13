@@ -62,12 +62,12 @@ export class Game {
       winnerCategory = result.winnerCategory
       winnerOutput = result.winnerOutput
     } else {
-      if (diceHands2.getCategoryType().type === CategoryType.NormalPoint) {
+      if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
         const sum1 = (diceHands1.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
         const sum2 = (diceHands2.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
         compareResult = sum1 - sum2
-        winnerCategory = diceHands1.getCategoryType().name
-        winnerOutput = diceHands2.getCategoryType().output
+        winnerCategory = compareResult > 0 ? diceHands1.getCategoryType().name : diceHands2.getCategoryType().name
+        winnerOutput = compareResult > 0 ? diceHands2.getCategoryType().output : diceHands2.getCategoryType().output
       } else {
         const allOfAKindComparer = new AllOfAKindComparer()
         const result = allOfAKindComparer.compare(diceHands1, diceHands2)
