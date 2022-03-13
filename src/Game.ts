@@ -1,6 +1,11 @@
 import {Parser} from "./Parser"
 import {Dice} from "./Dice"
 
+enum Category {
+  NormalPoint,
+  AllOfAKind,
+}
+
 export class Game {
   numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
 
@@ -8,7 +13,13 @@ export class Game {
     const parser = new Parser()
     const players = parser.parse(input)
     const normalPoint1 = this.countMapNum(players[0].dices)[2]
+    let category1: Category
     if (normalPoint1) {
+      category1 = Category.NormalPoint
+    } else {
+      category1 = Category.AllOfAKind
+    }
+    if (category1 === Category.NormalPoint) {
       let winnerPlayer = "White"
       let winnerCategory = "normal point"
       let winnerOutput = "6 over 3"
