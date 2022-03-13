@@ -1,7 +1,7 @@
 import {Parser} from "./Parser"
 import {Dice} from "./Dice"
 
-enum Category {
+enum CategoryType {
   NormalPoint,
   AllOfAKind,
 }
@@ -14,8 +14,8 @@ export class Game {
     const players = parser.parse(input)
     const dices1 = players[0].dices
     const dices2 = players[1].dices
-    const category1 = this.getCategory(dices1)
-    if (category1 === Category.NormalPoint) {
+    const category1 = this.getCategoryType(dices1)
+    if (category1 === CategoryType.NormalPoint) {
       let winnerPlayer = "White"
       let winnerCategory = "normal point"
       let winnerOutput = "6 over 3"
@@ -39,12 +39,12 @@ export class Game {
     return "Tie."
   }
 
-  private getCategory(dices: Dice[]): Category {
+  private getCategoryType(dices: Dice[]): CategoryType {
     const isNormalPoint = this.countMapNum(dices)[2]
     if (isNormalPoint) {
-      return Category.NormalPoint
+      return CategoryType.NormalPoint
     } else {
-      return Category.AllOfAKind
+      return CategoryType.AllOfAKind
     }
   }
 
