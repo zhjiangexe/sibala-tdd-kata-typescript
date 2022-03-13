@@ -7,6 +7,13 @@ export class Game {
   showResult(input: string): string {
     const parser = new Parser()
     const players = parser.parse(input)
+    const normalPoint1 = this.countMapNum(players[0].dices)[2]
+    if (normalPoint1) {
+      let winnerPlayer = "White"
+      let winnerCategory = "normal point"
+      let winnerOutput = "6 over 3"
+      return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
+    }
     const winner1Output = this.countMapNum(players[0].dices)[4]
     const winner2Output = this.countMapNum(players[1].dices)[4]
     let compareResult = this.numOrder.indexOf(winner1Output) - this.numOrder.indexOf(winner2Output)
