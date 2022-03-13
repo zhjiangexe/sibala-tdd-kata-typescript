@@ -55,7 +55,7 @@ class NormalPointComparer implements IComparer {
     const sum2 = (diceHands2.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
     const compareResult = sum1 - sum2
     const winnerCategory = compareResult > 0 ? diceHands1.getCategoryType().name : diceHands2.getCategoryType().name
-    const winnerOutput = compareResult > 0 ? diceHands2.getCategoryType().output : diceHands2.getCategoryType().output
+    const winnerOutput = compareResult > 0 ? diceHands1.getCategoryType().output : diceHands2.getCategoryType().output
     return {compareResult, winnerCategory, winnerOutput}
   }
 }
@@ -67,21 +67,24 @@ export class Game {
     const players = parser.parse(input)
     const diceHands1 = players[0].diceHands
     const diceHands2 = players[1].diceHands
-    let comparer: IComparer
-    if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
-      comparer = new DifferentCategoryComparer()
-    } else {
-      if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
-        comparer = new NormalPointComparer()
-      } else {
-        comparer = new AllOfAKindComparer()
-      }
-    }
+    let comparer = this.getComparer(diceHands1, diceHands2)
     const result = comparer.compare(diceHands1, diceHands2)
     if (result.compareResult != 0) {
       const winnerPlayer = result.compareResult > 0 ? players[0].name : players[1].name
       return `${winnerPlayer} win. - with ${result.winnerCategory}: ${result.winnerOutput}`
     }
     return "Tie."
+  }
+
+  private getComparer(diceHands1: DiceHands, diceHands2: DiceHands) {
+    if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
+      return new DifferentCategoryComparer()
+    } else {
+      if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
+        return new NormalPointComparer()
+      } else {
+        return new AllOfAKindComparer()
+      }
+    }
   }
 }
