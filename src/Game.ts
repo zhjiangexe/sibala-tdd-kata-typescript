@@ -3,6 +3,7 @@ import {CategoryType, DiceHands} from "./Player"
 import {DifferentCategoryComparer} from "./DifferentCategoryComparer"
 import {AllOfAKindComparer} from "./AllOfAKindComparer"
 import {NormalPointComparer} from "./NormalPointComparer"
+import {NoPointComparer} from "./NoPointComparer"
 
 
 export class Game {
@@ -24,12 +25,13 @@ export class Game {
   private getComparer(diceHands1: DiceHands, diceHands2: DiceHands) {
     if (diceHands1.getCategoryType().type != diceHands2.getCategoryType().type) {
       return new DifferentCategoryComparer()
-    } else {
-      if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
-        return new NormalPointComparer()
-      } else {
-        return new AllOfAKindComparer()
-      }
     }
+    if (diceHands1.getCategoryType().type === CategoryType.NoPoint) {
+      return new NoPointComparer()
+    }
+    if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
+      return new NormalPointComparer()
+    }
+    return new AllOfAKindComparer()
   }
 }
