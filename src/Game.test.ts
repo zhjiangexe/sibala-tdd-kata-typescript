@@ -38,6 +38,7 @@ describe("game", () => {
   test("both no point", () => {
     resultShouldBe("Black: 5 4 3 2  White: 6 1 2 3",
       "Tie.")
-
+    resultShouldBe("Black: 5 5 5 2  White: 6 6 6 3",
+      "Tie.")
   })
 })
