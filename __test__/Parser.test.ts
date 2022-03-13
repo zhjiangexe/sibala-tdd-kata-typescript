@@ -1,6 +1,6 @@
-import {Parser} from "./Parser"
-import {Player} from "./Player"
-import {Dice} from "./Dice"
+import {Parser} from "../src/Parser"
+import {Player} from "../src/Player"
+import {Dice} from "../src/Dice"
 
 describe("parser", () => {
   test("parse player", () => {

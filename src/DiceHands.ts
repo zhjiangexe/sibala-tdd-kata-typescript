@@ -2,10 +2,10 @@ import {Dice} from "./Dice"
 import {Category, CategoryType} from "./Category"
 
 export class Data {
-  static numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
 }
 
 export class DiceHands {
+  private readonly numOrder: string[] = ["2", "3", "5", "6", "4", "1"]
   private readonly dices: Dice[]
 
   constructor(dices: Dice[]) {
@@ -17,7 +17,7 @@ export class DiceHands {
       return new Category(CategoryType.NoPoint, "no point", "Tie.")
     } else if (this.isNormalPoint()) {
       const countOneDices: string[] = this.getCountOne()
-      const output = Data.numOrder.indexOf(countOneDices[0]) > Data.numOrder.indexOf(countOneDices[1]) ? `${countOneDices[0]} over ${countOneDices[1]}` : `${countOneDices[1]} over ${countOneDices[0]}`
+      const output = this.numOrder.indexOf(countOneDices[0]) > this.numOrder.indexOf(countOneDices[1]) ? `${countOneDices[0]} over ${countOneDices[1]}` : `${countOneDices[1]} over ${countOneDices[0]}`
       return new Category(CategoryType.NormalPoint, "normal point", output)
     } else {
       const count4Num = this.getCountFour()[0]
@@ -42,7 +42,7 @@ export class DiceHands {
   }
 
   public getCountFourNumOrder() {
-    return Data.numOrder.indexOf(this.getCountFour()[0])
+    return this.numOrder.indexOf(this.getCountFour()[0])
   }
 
   public getCountOne() {
