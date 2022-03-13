@@ -66,10 +66,10 @@ export class Game {
   showResult(input: string): string {
     const parser = new Parser()
     const players = parser.parse(input)
-    const dices1 = players[0].dices
-    const dices2 = players[1].dices
-    const category1 = this.getCategoryType(dices1)
-    const category2 = this.getCategoryType(dices2)
+    const countMapNum1 = this.countMapNum(players[0].dices)
+    const countMapNum2 = this.countMapNum(players[1].dices)
+    const category1 = this.getCategoryType(countMapNum1)
+    const category2 = this.getCategoryType(countMapNum2)
     let compareResult
     let winnerCategory
     let winnerOutput
@@ -99,19 +99,19 @@ export class Game {
     return "Tie."
   }
 
-  private getCategoryType(dices: Dice[]): Category {
-    const isNormalPoint = this.countMapNum(dices)[2]
+  private getCategoryType(countMapNum: Record<number, string[]>): Category {
+    const isNormalPoint = countMapNum[2]
     if (isNormalPoint) {
-      const count1Num: string[] = this.countMapNum(dices)[1]
+      const count1Num: string[] = countMapNum[1]
       const output = Data.numOrder.indexOf(count1Num[0]) > Data.numOrder.indexOf(count1Num[1]) ? `${count1Num[0]} over ${count1Num[1]}` : `${count1Num[1]} over ${count1Num[0]}`
       return new Category(CategoryType.NormalPoint, "normal point", output)
     } else {
-      const count4Num = this.countMapNum(dices)[4][0]
+      const count4Num = countMapNum[4][0]
       return new Category(CategoryType.AllOfAKind, "all of a kind", count4Num)
     }
   }
 
-  private countMapNum = (dices: Dice[]) => {
+  private countMapNum = (dices: Dice[]): Record<number, string[]> => {
     const numMapCount: Record<string, number> = {}
     for (const item of dices) {
       numMapCount[item.num] = numMapCount[item.num] ? numMapCount[item.num] + 1 : 1
