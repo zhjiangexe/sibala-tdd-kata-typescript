@@ -12,21 +12,17 @@ export class Game {
   showResult(input: string): string {
     const parser = new Parser()
     const players = parser.parse(input)
-    const normalPoint1 = this.countMapNum(players[0].dices)[2]
-    let category1: Category
-    if (normalPoint1) {
-      category1 = Category.NormalPoint
-    } else {
-      category1 = Category.AllOfAKind
-    }
+    const dices1 = players[0].dices
+    const dices2 = players[1].dices
+    const category1 = this.getCategory(dices1)
     if (category1 === Category.NormalPoint) {
       let winnerPlayer = "White"
       let winnerCategory = "normal point"
       let winnerOutput = "6 over 3"
       return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
     }
-    const winner1Output = this.countMapNum(players[0].dices)[4]
-    const winner2Output = this.countMapNum(players[1].dices)[4]
+    const winner1Output = this.countMapNum(dices1)[4]
+    const winner2Output = this.countMapNum(dices2)[4]
     let compareResult = this.numOrder.indexOf(winner1Output) - this.numOrder.indexOf(winner2Output)
     if (compareResult !== 0) {
       let winnerPlayer
@@ -41,6 +37,15 @@ export class Game {
       return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
     }
     return "Tie."
+  }
+
+  private getCategory(dices: Dice[]): Category {
+    const isNormalPoint = this.countMapNum(dices)[2]
+    if (isNormalPoint) {
+      return Category.NormalPoint
+    } else {
+      return Category.AllOfAKind
+    }
   }
 
   private countMapNum = (dices: Dice[]) => {
