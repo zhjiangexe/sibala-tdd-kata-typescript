@@ -27,6 +27,7 @@ export class Game {
     const players = parser.parse(input)
     const dices1 = players[0].dices
     const dices2 = players[1].dices
+    const category1 = this.getCategoryType(dices1)
     const category2 = this.getCategoryType(dices2)
     if (category2.type === CategoryType.NormalPoint) {
       let winnerPlayer = players[1].name
@@ -34,20 +35,19 @@ export class Game {
       let winnerOutput = category2.output
       return `${winnerPlayer} win. - with ${winnerCategory}: ${winnerOutput}`
     }
-    const winner1Output = this.countMapNum(dices1)[4]
-    const winner2Output = this.countMapNum(dices2)[4]
-    let compareResult = this.numOrder.indexOf(winner1Output[0]) - this.numOrder.indexOf(winner2Output[0])
+    const compareResult = this.numOrder.indexOf(category1.output) - this.numOrder.indexOf(category2.output)
     if (compareResult !== 0) {
+      const category = category1.name
       let winnerPlayer
       let winnerOutput
       if (compareResult > 0) {
         winnerPlayer = players[0].name
-        winnerOutput = winner1Output
+        winnerOutput = category1.output
       } else {
         winnerPlayer = players[1].name
-        winnerOutput = winner2Output
+        winnerOutput = category2.output
       }
-      return `${winnerPlayer} win. - with all of a kind: ${winnerOutput}`
+      return `${winnerPlayer} win. - with ${category}: ${winnerOutput}`
     }
     return "Tie."
   }
