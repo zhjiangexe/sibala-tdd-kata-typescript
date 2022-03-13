@@ -45,6 +45,17 @@ class AllOfAKindComparer {
   }
 }
 
+class NormalPointComparer {
+  public compare(diceHands1: DiceHands, diceHands2: DiceHands): CompareResult {
+    const sum1 = (diceHands1.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
+    const sum2 = (diceHands2.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
+    const compareResult = sum1 - sum2
+    const winnerCategory = compareResult > 0 ? diceHands1.getCategoryType().name : diceHands2.getCategoryType().name
+    const winnerOutput = compareResult > 0 ? diceHands2.getCategoryType().output : diceHands2.getCategoryType().output
+    return {compareResult, winnerCategory, winnerOutput}
+  }
+}
+
 export class Game {
 
   showResult(input: string): string {
@@ -63,11 +74,11 @@ export class Game {
       winnerOutput = result.winnerOutput
     } else {
       if (diceHands1.getCategoryType().type === CategoryType.NormalPoint) {
-        const sum1 = (diceHands1.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
-        const sum2 = (diceHands2.getCountMapNum())[1].map(elem => parseInt(elem)).reduce((a, b) => a + b, 0)
-        compareResult = sum1 - sum2
-        winnerCategory = compareResult > 0 ? diceHands1.getCategoryType().name : diceHands2.getCategoryType().name
-        winnerOutput = compareResult > 0 ? diceHands2.getCategoryType().output : diceHands2.getCategoryType().output
+        const normalPointComparer = new NormalPointComparer()
+        const result = normalPointComparer.compare(diceHands1, diceHands2)
+        compareResult = result.compareResult
+        winnerCategory = result.winnerCategory
+        winnerOutput = result.winnerOutput
       } else {
         const allOfAKindComparer = new AllOfAKindComparer()
         const result = allOfAKindComparer.compare(diceHands1, diceHands2)
@@ -82,5 +93,4 @@ export class Game {
     }
     return "Tie."
   }
-
 }
